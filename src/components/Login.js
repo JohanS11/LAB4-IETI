@@ -19,6 +19,8 @@ export class Login extends React.Component{
 
     constructor(props) {
         super(props);
+        console.log("WHYYY")
+        console.log(this.props);
         this.state = {email:"", password:"",IsLoggedIn: false};
         this.handleChangeEmail = this.handleChangeEmail.bind(this)
         this.handleChangePasswd = this.handleChangePasswd.bind(this);
@@ -50,32 +52,24 @@ export class Login extends React.Component{
         console.log(this.props);
         var logged = false;
         for (var i = 0; i < listUsers.length; i++){
-            console.log("USERRRRRRR");
-            console.log(listUsers[i].email);
-            console.log("STATE");
-            console.log(this.state.email);
-            console.log("PASSWORD");
-            console.log(listUsers[i].password);
-            console.log("PASWDSTATE");
-            console.log(this.state.password);
-            console.log("THISS");
-            console.log(this.props);
             if (listUsers[i].email == this.state.email && listUsers[i].password == this.state.password ){
                 localStorage.setItem("IsLoggedIn",true);
+                localStorage.setItem("username",listUsers[i].username);
+                localStorage.setItem("email",listUsers[i].email);
                 logged = true;
-                this.props.history.push("/todo");
-                return;
+                
             }
         }
         if (!logged){
             alert("Incorrect User or password ")
+        }else {
+            window.location.href = "/todo";
         }
         
     }
     
     render(){
     
-
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -132,5 +126,3 @@ export class Login extends React.Component{
     }
 
 }
-
-export default withRouter(Login);

@@ -54,6 +54,8 @@ export class SignUp extends React.Component{
             users.push({username:this.state.name,email:this.state.email,password:this.state.password})
             localStorage.setItem("users",JSON.stringify(users));
             localStorage.setItem("IsLoggedIn",true);
+            localStorage.setItem("username",this.state.name);
+            localStorage.setItem("email",this.state.email);
             this.props.history.push("/todo");
         }
     }
@@ -78,7 +80,7 @@ export class SignUp extends React.Component{
                                 <Input
                                     name="name"
                                     id = "name"
-                                    onChange={this.handleChangePasswd}
+                                    onChange={this.handleChangeUserName}
                                     autoComplete="username"
                                     required
                                 />

@@ -72,6 +72,8 @@ function ResponsiveDrawer(props) {
   const handlerLogout = (e) => {
     localStorage.setItem("IsLoggedIn",false);
     localStorage.removeItem("IsLoggedIn");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
     handleDrawerToggle();
   }
 
@@ -89,7 +91,7 @@ function ResponsiveDrawer(props) {
             <ListItemIcon>
               <AccountBoxIcon> </AccountBoxIcon>  
             </ListItemIcon>
-            <ListItemText primary={"Johan Arias"} />
+            <ListItemText primary={localStorage.getItem("username")} />
             
           </ListItem>
           <ListItem button key={"email"}>
@@ -97,7 +99,7 @@ function ResponsiveDrawer(props) {
             <ListItemIcon>
               <AlternateEmailIcon></AlternateEmailIcon>
             </ListItemIcon>
-            <ListItemText primary={"johanarias@mail.com"} />
+            <ListItemText primary={localStorage.getItem("email")} />
             
           </ListItem>
       </List>
