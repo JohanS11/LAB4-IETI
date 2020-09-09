@@ -70,8 +70,8 @@ function ResponsiveDrawer(props) {
   };
 
   const handlerLogout = (e) => {
-    localStorage.setItem("IsLoggedIn",false); 
-    localStorage.clear();
+    localStorage.setItem("IsLoggedIn",false);
+    localStorage.removeItem("IsLoggedIn");
     handleDrawerToggle();
   }
 

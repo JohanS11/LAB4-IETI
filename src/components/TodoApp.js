@@ -38,8 +38,8 @@ export class TodoApp extends Component {
                 handleSubmit = {this.handleSubmit}
                 handleOpen = {this.handleOpen}
                 open = {this.state.isOpen}
-                state = {this.state}
-                > </Dialog>
+                state = {this.state}> 
+                </Dialog>
                 <Fab aria-label='Add' onClick={() => this.handleOpen()} color='primary' style = {{right: '-45%'}}>  
                     <AddIcon/>   
                 </Fab>
