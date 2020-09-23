@@ -4,8 +4,11 @@ import {TodoList} from "./TodoList";
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
 import Dialog from './Dialog';
+import FilterDialog from './FilterDialog';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import SearchIcon from '@material-ui/icons/Search';
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 
 
 
@@ -13,23 +16,21 @@ export class TodoApp extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {items: [{text:"Tarea1",status:"ready",dueDate:moment(),responsible:'Johan'}], text: '', status: '', dueDate: moment(), responsible:'',isOpen:false};
-        this.handleTextChange = this.handleTextChange.bind(this);
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleRespChange = this.handleRespChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
+        this.state = {items: [{text:"Tarea1",status:"Ready",dueDate:moment(),responsible:'Johan'},
+                              {text:"Do back",status:"Done",dueDate:moment(),responsible:'Jeisson'},
+                              {text:"Frontend",status:"In progress",dueDate:moment(),responsible:'Johan'}], 
+                            text: '', status: '', dueDate: moment(), responsible:'',isOpen:false,isOpenFilter:false,filtering:false};
+        this.state.itemsFiltered = [{status:"",dueDate: moment(),responsible:""}];
+        this.state.itemsShow = [];
 
     }
-
 
     render() {
 
         return (
                  
             <div className="App">
-                <TodoList todoList={this.state.items}/>
+                <TodoList todoList={this.state.filtering ? this.state.itemsShow: this.state.items}/>     
                 <Dialog 
                 handleTextChange = {this.handleTextChange}
                 handleStatusChange = {this.handleStatusChange}
@@ -40,45 +41,123 @@ export class TodoApp extends Component {
                 open = {this.state.isOpen}
                 state = {this.state}> 
                 </Dialog>
+
+                <FilterDialog 
+                handleStatusChange = {this.handleStatusChangeF}
+                handleDateChange = {this.handleDateChangeF}
+                handleRespChange = {this.handleRespChangeF}
+                handleSubmit = {this.handleSubmitFilter}
+                handleOpenFilter = {this.handleOpenFilter}
+                handleChangeFiltering = {this.handleChangeFiltering}
+                open = {this.state.isOpenFilter}
+                state = {this.state}> 
+                </FilterDialog>
+
                 <Fab aria-label='Add' onClick={() => this.handleOpen()} color='primary' style = {{right: '-45%'}}>  
                     <AddIcon/>   
                 </Fab>
-                
+                <Fab aria-label='Filter' onClick={() => this.handleOpenFilter()} color='primary' style = {{right: '-19%'}}>  
+                    <SearchIcon/>   
+                </Fab>
+                <Fab aria-label='ChangeFilter' onClick={() => this.handleFiltering()} color='primary' style = {{right: '-25%'}}>  
+                    <CancelRoundedIcon/>   
+                </Fab>
+                          
             </div>
         );
     }
 
-    handleOpen(){
+    handleStatusChangeF = (e) => {
+
+        this.state.itemsFiltered[0].status = e.target.value;
+        this.setState(
+            this.state
+        );
+    }
+
+   handleDateChangeF = (e) => {
+
+        console.log("Fecha");
+        this.state.itemsFiltered[0].dueDate = e;
+        this.setState(
+            this.state
+    );
+
+    }
+
+    handleRespChangeF = (e) =>{
+
+        this.state.itemsFiltered[0].responsible = e.target.value;
+        this.setState(
+            this.state
+        );
+       
+    }
+
+    handleSubmitFilter = () =>{
+        this.state.itemsShow = [];
+    
+        var itemsI = this.state.items;
+        var itemsF = this.state.itemsFiltered;
+        console.log("FILTROS");
+        console.log(this.state.itemsFiltered[0].dueDate.toString());
+        for (var i = 0 ; i < itemsI.length; i++){
+            if (itemsI[i].status === itemsF[0].status ||  itemsI[i].dueDate === itemsF[0].dueDate.toString() || itemsI[i].responsible === itemsF[0].responsible){
+                console.log("ENTREEEEEEE");
+                this.state.itemsShow.push(itemsI[i]);
+            }
+        }
+        console.log("SHOWWW");
+        console.log(this.state.itemsShow)
+        this.setState(this.state);
+        this.handleFiltering();
+        this.handleOpenFilter();
+
+    }
+
+    handleOpen = ()=>{
         this.setState({
             isOpen : !this.state.isOpen
         });
     }
 
-    handleTextChange(e) {
+    handleOpenFilter = () =>{
+        this.setState({
+            isOpenFilter : !this.state.isOpenFilter
+        });
+    }
+
+    handleFiltering = () =>{
+        this.setState({
+            filtering : !this.state.filtering
+        })
+    }
+
+    handleTextChange = (e) => {
         this.setState({
             text: e.target.value
         });
     }
 
-    handleStatusChange(e) {
+    handleStatusChange = (e)=> {
         this.setState({
             status: e.target.value
         });
     }
 
-    handleDateChange(date) {
+    handleDateChange = (date) =>{
         this.setState({
             dueDate: date
         });
     }
 
-    handleRespChange(resp) {
+    handleRespChange = (resp) =>{
         this.setState({
             responsible: resp.target.value
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         console.log(this.state);
         e.preventDefault();
         if (!this.state.text.length || !this.state.status.length || !this.state.dueDate || !this.state.responsible.length){
@@ -99,6 +178,7 @@ export class TodoApp extends Component {
             responsible :''
         }));
         this.handleOpen();
+        this.handleFiltering();
     }
 
 }

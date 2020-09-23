@@ -72,8 +72,6 @@ function ResponsiveDrawer(props) {
   const handlerLogout = (e) => {
     localStorage.setItem("IsLoggedIn",false);
     localStorage.removeItem("IsLoggedIn");
-    localStorage.removeItem("username");
-    localStorage.removeItem("email");
     handleDrawerToggle();
   }
 
@@ -177,7 +175,7 @@ function ResponsiveDrawer(props) {
         <div className={classes.toolbar} />
                <br/>
                 <br/>
-                <TodoApp> </TodoApp>  
+            <TodoApp> </TodoApp>  
       </main>
     </div>
   );

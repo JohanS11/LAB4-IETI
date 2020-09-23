@@ -20,7 +20,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide(props) {
+export default function FilterDialog(props) {
 
   return (
     <div>
@@ -28,35 +28,22 @@ export default function AlertDialogSlide(props) {
         open={props.open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={()=> props.handleOpen()}
+        onClose={()=> props.handleOpenFilter()}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">{"Todo Task"}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">{"Filter Todo Tasks"}</DialogTitle>
         <DialogContent>
                 <form onSubmit={props.handleSubmit} className="todo-form">
-                    <h3>New TODO</h3>
-                    <label htmlFor="text"  className="right-margin">
-                        Description:
-                    </label>
+                    <h3>Filter</h3>
 
-                    <TextField
-                        multiline 
-                        variant="outlined"
-                        id="text"
-                        onChange={props.handleTextChange}
-                        value={props.state.text}>
-                    </TextField>
-
-                    <br/>
-                    <br/>
                     <label htmlFor="status" className="right-margin">
                         Status:
                     </label>
-
+                    
                     <Select
                       autoFocus
-                      value={props.state.status}
+                      value = {props.state.itemsFiltered[0].status}
                       onChange = {props.handleStatusChange}
                       inputProps={{
                         name: 'Status',
@@ -67,6 +54,7 @@ export default function AlertDialogSlide(props) {
                         <MenuItem value="In progress">in progress</MenuItem>
                         <MenuItem value="Done">done</MenuItem>
                     </Select>
+                  
                     <br/>
                     <br/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -78,7 +66,7 @@ export default function AlertDialogSlide(props) {
                             margin="normal"
                             id="due-date"
                             label="Todo Date"
-                            value={props.state.dueDate}
+                            value={props.state.itemsFiltered[0].dueDate}
                             onChange={props.handleDateChange}
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
@@ -94,7 +82,7 @@ export default function AlertDialogSlide(props) {
                     <TextField
                         id="responsible"
                         onChange={props.handleRespChange}
-                        value={props.state.responsible}>
+                        value={props.state.itemsFiltered[0].responsible}>
                     </TextField>
   
                     <br/>
@@ -103,11 +91,11 @@ export default function AlertDialogSlide(props) {
                 <br/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=> props.handleOpen()} color="primary">
+          <Button onClick={()=> props.handleOpenFilter()} color="primary">
             Cancel
           </Button>
           <Button onClick={props.handleSubmit} color="primary">
-            Add #{props.state.items.length + 1} 
+            Filter 
           </Button>
         </DialogActions>
       </Dialog>
