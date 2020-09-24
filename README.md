@@ -5,6 +5,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://lit-tundra-50685.herokuapp.com)
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://ietilab11.z20.web.core.windows.net)
+[![firebase](https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-128.png)](https://task-planner-80e9f.web.app)
+
+**CREDS**
+
+username : chan@mail.com
+
+pw: chan123
 
 ## Available Scripts
 
